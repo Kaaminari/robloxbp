@@ -1,21 +1,28 @@
 /* Geral */
 body {
     font-family: Arial, sans-serif;
-    background-color: #6a0dad; /* Petro */
+    background-color: #000; /* Fundo preto */
     color: white;
     margin: 0;
     padding: 0;
     text-align: center;
 }
 
+/* Contêiner Principal */
 .main-container {
     padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Títulos */
-h1, h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+/* Título */
+h1 {
+    font-size: 40px;
+    margin-bottom: 40px;
+    font-weight: bold;
 }
 
 /* Links estilo Linktree */
@@ -27,11 +34,11 @@ h1, h2 {
     display: inline-block;
     padding: 15px 30px;
     margin: 10px 0;
-    background-color: #444;
+    background-color: #777; /* Cinza */
     color: white;
     text-decoration: none;
-    font-size: 18px;
-    border-radius: 15px;
+    font-size: 20px;
+    border-radius: 15px; /* Bordas arredondadas */
     width: 80%;
     max-width: 400px;
     text-align: center;
@@ -39,66 +46,5 @@ h1, h2 {
 }
 
 .linktree-button:hover {
-    background-color: #333;
-}
-
-/* Seção Bypass */
-.bypass-section {
-    margin-top: 30px;
-}
-
-.bypass-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.bypass-title span {
-    font-size: 30px;
-    color: #fff;
-}
-
-.main-button {
-    padding: 15px 30px;
-    background-color: #444;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 15px; /* Bordas arredondadas */
-    font-size: 16px;
-}
-
-.main-input {
-    padding: 15px;
-    width: 80%;
-    margin-top: 20px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    background-color: #222;
-    color: white;
-}
-
-/* Resultado */
-.main-result {
-    display: none;
-    margin-top: 30px;
-}
-
-.main-result.data-get {
-    display: block;
-}
-
-.result-button {
-    padding: 10px 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 20px;
-}
-
-.result-content {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #bbb;
+    background-color: #666; /* Cor mais escura quando passa o mouse */
 }
