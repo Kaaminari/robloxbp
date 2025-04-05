@@ -1,4 +1,4 @@
-/* Corpo */
+/* Geral */
 body {
     font-family: Arial, sans-serif;
     background-color: #6a0dad; /* Petro */
@@ -8,45 +8,41 @@ body {
     text-align: center;
 }
 
-/* Header */
-header {
-    padding: 20px;
-    background-color: #333;
-    color: white;
-}
-
-header h1 {
-    margin: 0;
-}
-
-/* Notificação de Primeiro Acesso */
-.app-notify {
-    display: none;
-    background-color: #444;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px;
-}
-
-.app-notify.visible {
-    display: block;
-}
-
-.app-notify-button {
-    padding: 10px 20px;
-    background-color: #222;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-/* Conteúdo Principal */
-.content {
+.main-container {
     padding: 50px 20px;
 }
 
-/* Seção de Bypass */
+/* Títulos */
+h1, h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Links estilo Linktree */
+.linktree {
+    margin-top: 30px;
+}
+
+.linktree-button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px 0;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.linktree-button:hover {
+    background-color: #333;
+}
+
+/* Seção Bypass */
 .bypass-section {
     margin-top: 30px;
 }
