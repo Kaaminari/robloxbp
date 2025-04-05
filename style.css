@@ -24,7 +24,7 @@ h1 {
     margin-bottom: 10px;
     font-weight: bold;
     text-align: center;
-    margin-right: 50px; /* Movimenta o título para a esquerda */
+    margin-right: -10px; /* Movimenta o título para a esquerda */
 }
 /* Links estilo Linktree */
 .linktree {
