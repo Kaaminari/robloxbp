@@ -21,8 +21,9 @@ body {
 /* Título */
 h1 {
     font-size: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;  /* Ajuste para ficar mais alinhado com o botão */
     font-weight: bold;
+    text-align: center;  /* Garantir que o título fique centralizado */
 }
 
 /* Links estilo Linktree */
@@ -35,16 +36,3 @@ h1 {
     padding: 15px 30px;
     margin: 10px 0;
     background-color: #777; /* Cinza */
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-    border-radius: 15px; /* Bordas arredondadas */
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.linktree-button:hover {
-    background-color: #666; /* Cor mais escura quando passa o mouse */
-}
