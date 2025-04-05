@@ -1,0 +1,70 @@
+/* Estilo comum para as duas páginas */
+body {
+    background-color: #2C3E50; /* Fundo escuro */
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Container central */
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+}
+
+/* Título */
+h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Botão (mesmo estilo nas duas páginas) */
+.linktree-button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px 0;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 15px;
+    width: 80%;
+    text-align: center;
+}
+
+.linktree-button:hover {
+    background-color: #333;
+}
+
+/* Campo de input para o cookie */
+.main-input {
+    width: 80%;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.main-button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px 0;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 15px;
+    width: 80%;
+    text-align: center;
+}
