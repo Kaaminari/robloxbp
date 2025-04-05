@@ -35,7 +35,7 @@ h1 {
     display: inline-block;
     padding: 15px 30px;
     margin: 10px 0;
-    background-color: #777; /* Cinza */
+    background-color: #444; /* Cinza mais escuro */
     color: white;
     text-decoration: none;
     font-size: 20px;
@@ -43,9 +43,13 @@ h1 {
     width: 80%;
     max-width: 400px;
     text-align: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adiciona a transição para escala */
 }
 
+.linktree-button:hover {
+    background-color: #333; /* Cor mais escura quando passa o mouse */
+    transform: scale(0.95); /* Diminui o botão para 95% do seu tamanho original */
+}
 .linktree-button:hover {
     background-color: #666; /* Cor mais escura quando passa o mouse */
 }
