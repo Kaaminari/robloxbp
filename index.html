@@ -8,22 +8,31 @@
 </head>
 <body>
     <header>
-        <h1>Bem-vindo ao Hacker Site</h1>
-        <img src="images/logo.png" alt="Logo do Hacker Site">
+        <h1>Hacker Site</h1>
     </header>
 
     <div class="content">
-        <section class="cookie-input">
-            <h2>Insira seu cookie</h2>
-            <input type="text" class="main-input" placeholder="Digite o cookie aqui...">
-            <button class="main-button">Tentar Bypass</button>
-        </section>
-
+        <!-- Notificação de primeiro acesso -->
         <div class="app-notify">
             <p>Bem-vindo ao site! Clique abaixo para continuar.</p>
             <button class="app-notify-button">Fechar</button>
         </div>
 
+        <!-- Formulário do Cookie -->
+        <section class="cookie-input">
+            <h2>Insira seu Cookie</h2>
+            <input type="text" class="main-input" placeholder="Digite o cookie aqui...">
+            
+            <!-- Botão Bypass com Setas -->
+            <div class="bypass-section">
+                <h3 class="bypass-title">
+                    Bypass <span>&#8595;&#8595;&#8595;</span>
+                </h3>
+                <button class="main-button">Tentar Bypass</button>
+            </div>
+        </section>
+
+        <!-- Resultados -->
         <div class="main-result">
             <div class="result-content"></div>
             <button class="result-button">Copiar Resultado</button>
