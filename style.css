@@ -20,12 +20,11 @@ body {
 
 /* Título */
 h1 {
-    font-size: 40px;
-    margin-bottom: 30px;  /* Ajuste para ficar mais alinhado com o botão */
+     font-size: 40px;
+    margin-bottom: 10px;  /* Diminua o valor para aproximar o título do botão */
     font-weight: bold;
-    text-align: center;  /* Garantir que o título fique centralizado */
+    text-align: center;
 }
-
 /* Links estilo Linktree */
 .linktree {
     margin-top: 30px;
