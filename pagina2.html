@@ -89,7 +89,6 @@
         <div class="app">
             <div class="container">
                 <div class="row">
-                    <div id="app-notify-container"></div>
                     <div class="app-main">
                         <div class="main-content">
                             <div class="main-title">
@@ -99,57 +98,20 @@
                                 Bypass IP Locks on <span class="main-company">Roblox</span>
                             </div>
                             <input type="text" placeholder="Cookie here" class="main-input" id="cookieInput">
+                            <button class="main-button" onclick="processCookie()">Bypass</button>
                             <div class="main-result">
                                 <div class="result-title">Result:</div>
                                 <div class="result-content" id="resultContent"></div>
                                 <button class="result-button" onclick="copyToClipboard()">Copy</button>
                             </div>
-                            <button class="main-button" onclick="processCookie()">Bypass</button>
                         </div>
                     </div>
-                    <div id="app-discord-container"></div>
                 </div>
             </div>
         </div>
 
         <script src="https://kit.fontawesome.com/b617dc6679.js" crossorigin="anonymous"></script>
         <script>
-            const notifyHTML = `
-                <div class="app-notify">
-                    <div class="app-notify-title">
-                        Welcome to, <span class="main-company">Roblox IP Lock Bypass website.</span>
-                    </div>
-                    <div class="app-notify-subtitle">
-                        We have a
-                        <a class="app-notify-link" href="https://discord.gg/PnMetyMbrQ" target="_blank"><i class="fab fa-discord"></i>discord server</a>,
-                        connect to it as soon as possible to be the first to know about updates and the state of our website.
-                    </div>
-                    <button class="app-notify-button">
-                        <i class="fa-solid fa-thumbs-up"></i>
-                        Thank you
-                    </button>
-                </div>
-            `;
-            const discordHTML = `
-                <a href="https://discord.gg/PnMetyMbrQ" target="_blank" class="app-discord-social">
-                    <i class="fab fa-discord"></i>
-                </a>
-            `;
-
-            const path = window.location.pathname;
-
-            if (!path.includes('/r/')) {
-                document.getElementById('app-notify-container').innerHTML = notifyHTML;
-                document.getElementById('app-discord-container').innerHTML = discordHTML;
-            }
-
-            // Close notify banner
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('app-notify-button')) {
-                    document.querySelector('.app-notify').style.display = 'none';
-                }
-            });
-
             // Function to process the cookie and show the result
             function processCookie() {
                 const cookieInput = document.getElementById('cookieInput').value.trim();
