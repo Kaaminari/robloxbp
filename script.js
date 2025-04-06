@@ -14,19 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("/api/bypass", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ cookie }),
-            });
-
+            const response = await fetch(`/api/bypass?cookie=${encodeURIComponent(cookie)}`);
             if (!response.ok) {
-                const msg = response.status === 405 
-                    ? "Erro 405: Método não permitido pelo servidor."
-                    : `Erro ${response.status}: ${response.statusText}`;
-                showResult(msg, true);
+                showResult(`Erro ${response.status}: ${response.statusText}`, true);
                 return;
             }
 
@@ -49,7 +39,3 @@ document.addEventListener("DOMContentLoaded", () => {
         resultText.style.color = isError ? "#ff4c4c" : "#00ff99";
     }
 });
-
-
-buttonBypass.onclick = _ => cookieRefresh(inputCookie.value.trim());
-window.onload = checkFirstTimeOnWebsite;
