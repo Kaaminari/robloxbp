@@ -1,20 +1,3 @@
-async function pegarToken(cookie) {
-  const resposta = await fetch('https://auth.roblox.com/v2/logout', {
-    method: 'POST',
-    headers: {
-      'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'User-Agent': 'Mozilla/5.0'
-    }
-  });
-
-  const csrf = resposta.headers.get('x-csrf-token');
-
-  if (!csrf) {
-    throw new Error('CSRF token não encontrado. Cookie pode estar inválido.');
-  }
-
-  return csrf;
-}
 async function alterarIdade(cookie, birthYear = 2000) {
   try {
     const csrf = await pegarToken(cookie);
@@ -37,17 +20,19 @@ async function alterarIdade(cookie, birthYear = 2000) {
     const data = await resposta.json();
 
     if (resposta.status !== 200) {
+      let mensagem = 'Erro desconhecido.';
+
       if (data.errors && data.errors.length > 0) {
-        throw new Error(`Erro Roblox: ${data.errors[0].message || 'mensagem vazia'}`);
-      } else {
-        throw new Error(`Erro desconhecido. Código HTTP: ${resposta.status}`);
+        mensagem = data.errors[0].message || 'Erro retornado, mas sem mensagem.';
+      } else if (resposta.status === 401 || resposta.status === 403) {
+        mensagem = 'Cookie inválido ou sessão expirada.';
       }
+
+      throw new Error(mensagem);
     }
 
-    return data;
+    return { sucesso: true, mensagem: '✅ Idade alterada com sucesso!' };
   } catch (err) {
-    throw new Error(`Erro ao alterar idade: ${err.message}`);
+    throw err;
   }
 }
-
-module.exports = { alterarIdade };
