@@ -1,15 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Para interpretar JSON no body
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Servir arquivos estáticos (HTML, CSS, JS)
-app.use(express.static('public'));
-
-// Rota POST para "alterar idade"
 app.post('/alterar-idade', (req, res) => {
   const { cookie, password } = req.body;
 
@@ -17,13 +14,11 @@ app.post('/alterar-idade', (req, res) => {
     return res.status(400).json({ error: 'Cookie e senha são obrigatórios.' });
   }
 
-  // Simulando idade alterada
-  const idadeAlterada = Math.random() > 0.5 ? '13' : '-13';
+  const idadeAlterada = Math.random() > 0.5 ? '13+' : '-13'; // Simulação
 
-  res.json({ idadeAlterada: idadeAlterada });
+  res.json({ idadeAlterada });
 });
 
-// Inicia o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
