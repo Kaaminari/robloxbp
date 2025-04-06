@@ -37,7 +37,11 @@ app.post('/alterar-idade', async (req, res) => {
     res.status(500).json({ mensagem: `❌ ${erro.message}` });
   }
 });
- endpoint
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
