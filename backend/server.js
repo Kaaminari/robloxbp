@@ -34,12 +34,12 @@ app.post('/alterar-idade', async (req, res) => {
     res.json(resultado);
   } catch (erro) {
     console.error(erro);
-   res.status(500).json({ 
-  error: '❌ Ocorreu um erro ao tentar alterar a idade.',
-  detalhe: erro.message
- });
-  } // ← chave adicionada aqui
-});
+    res.status(500).json({ 
+      error: '❌ Ocorreu um erro ao tentar alterar a idade.',
+      detalhe: erro.message || 'Erro desconhecido ao processar a requisição.'
+    });
+  } // ← chave final do try/catch
+}); // ← chave final do endpoint
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
