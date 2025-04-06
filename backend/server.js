@@ -1,7 +1,7 @@
 // server.js
 const express = require("express");
 const cors = require("cors");
-const fetch = require("node-fetch"); // <--- Aqui está o fetch incluído certinho
+const fetch = require("node-fetch"); // Aqui está o fetch incluído certinho
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +23,10 @@ app.post("/refresh", async (req, res) => {
       headers: {
         "Cookie": `.ROBLOSECURITY=${cookie}`,
         "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
       },
     });
 
@@ -45,7 +49,6 @@ app.post("/refresh", async (req, res) => {
     res.status(500).json({ error: "Erro interno" });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
