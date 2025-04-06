@@ -5,7 +5,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pagina2.html'));
+});
 
 app.post('/alterar-idade', (req, res) => {
   const { cookie, password } = req.body;
