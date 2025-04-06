@@ -77,5 +77,39 @@
       document.getElementById("resposta").innerText = JSON.stringify(data, null, 2);
     }
   </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("idadeForm");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const cookie = document.getElementById("cookie").value;
+      const password = document.getElementById("password").value;
+
+      const respostaDiv = document.getElementById("resposta");
+      respostaDiv.innerText = "Carregando...";
+
+      try {
+        const response = await fetch("/alterar-idade", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cookie, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.idadeAlterada) {
+          respostaDiv.innerText = `Idade alterada para: ${data.idadeAlterada}`;
+        } else {
+          respostaDiv.innerText = "Erro ao alterar idade.";
+        }
+      } catch (error) {
+        respostaDiv.innerText = "Erro de conexão com o servidor.";
+     }
+    }
+  </script>
 </body>
 </html>
