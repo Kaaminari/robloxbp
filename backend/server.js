@@ -8,17 +8,37 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 
-app.post("/refresh", (req, res) => {
+const fetch = require('node-fetch'); // se ainda não instalou: npm install node-fetch@2
+
+app.post("/refresh", async (req, res) => {
   const { cookie } = req.body;
 
   if (!cookie || !cookie.includes(".ROBLOSECURITY")) {
     return res.status(400).json({ error: "Cookie inválido ou ausente" });
   }
 
-  // Aqui você faria a lógica real (ex: chamar API da Roblox, etc)
-  // Exemplo de resposta simulada:
-  res.json({ message: "Cookie atualizado com sucesso!", cookieRecebido: cookie });
+  try {
+    const response = await fetch("https://auth.roblox.com/v2/logout", {
+      method: "POST",
+      headers: {
+        "Cookie": `.ROBLOSECURITY=${cookie}`,
+        "User-Agent": "Mozilla/5.0",
+      },
+    });
+
+    const newCookie = response.headers.get("set-cookie");
+
+    if (!newCookie) {
+      return res.status(401).json({ error: "Falha ao atualizar cookie" });
+    }
+
+    return res.json({ message: "Cookie atualizado com sucesso!", cookieAtualizado: newCookie });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro interno" });
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
