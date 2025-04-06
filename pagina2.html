@@ -43,33 +43,6 @@
         .main-button {
             padding: 10px 20px;
         }
-        .app-notify {
-            display: none;
-            background-color: #ffc107;
-            color: #000;
-            padding: 15px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-        }
-        .app-notify.visible {
-            display: block;
-        }
-        .main-result.data-get {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #222;
-        }
-    </style>
-</head>
-<body>
-    <div class="app-notify">
-        Primeira vez aqui? Clique para continuar
-        <button class="app-notify-button btn btn-dark ms-2">Ok</button>
-    </div>
-
     <div class="main-content">
         <h1 class="main-title">Neko Bypass</h1>
         <input type="text" class="main-input" placeholder="Cole seu cookie aqui">
@@ -92,16 +65,6 @@
         const resultContent = document.querySelector('.result-content');
         const resultButton = document.querySelector('.result-button');
         const buttonBypass = document.querySelector('.main-button');
-
-        const setFirstTimeOnWebsite = () => {
-            localStorage.setItem('firstTimeOnWebsite', true);
-            notify && notify.remove();
-        };
-
-        const checkFirstTimeOnWebsite = () => {
-            const hasData = localStorage.getItem('firstTimeOnWebsite');
-            !hasData && notify && notify.classList.add('visible');
-        };
 
         const copieText = async text => await navigator.clipboard.writeText(text);
 
