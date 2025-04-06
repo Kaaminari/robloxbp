@@ -34,9 +34,11 @@ app.post('/alterar-idade', async (req, res) => {
     res.json(resultado);
   } catch (erro) {
     console.error(erro);
-    res.status(500).json({ error: 'Erro ao alterar idade.' });
-  }
+   res.status(500).json({ 
+  error: '❌ Ocorreu um erro ao tentar alterar a idade.',
+  detalhe: erro.message
 });
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
