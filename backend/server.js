@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Rota principal serve pagina2.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pagina2.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/alterar-idade', (req, res) => {
