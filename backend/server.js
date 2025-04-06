@@ -26,20 +26,18 @@ app.post('/alterar-idade', async (req, res) => {
   const { cookie } = req.body;
 
   if (!cookie) {
-    return res.status(400).json({ error: 'Cookie é obrigatório.' });
+    return res.status(400).json({ mensagem: '❌ Você precisa inserir o cookie.' });
   }
 
   try {
     const resultado = await alterarIdade(cookie);
-    res.json(resultado);
+    res.json({ mensagem: resultado.mensagem });
   } catch (erro) {
     console.error(erro);
-    res.status(500).json({ 
-      error: '❌ Ocorreu um erro ao tentar alterar a idade.',
-      detalhe: erro.message || 'Erro desconhecido ao processar a requisição.'
-    });
-  } // ← chave final do try/catch
-}); // ← chave final do endpoint
+    res.status(500).json({ mensagem: `❌ ${erro.message}` });
+  }
+});
+ endpoint
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
