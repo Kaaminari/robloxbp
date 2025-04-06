@@ -1,14 +1,14 @@
 // server.js
 const express = require("express");
 const cors = require("cors");
+const fetch = require("node-fetch"); // <--- Aqui está o fetch incluído certinho
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
-
-const fetch = require('node-fetch'); // se ainda não instalou: npm install node-fetch@2
 
 app.post("/refresh", async (req, res) => {
   const { cookie } = req.body;
@@ -38,7 +38,6 @@ app.post("/refresh", async (req, res) => {
     res.status(500).json({ error: "Erro interno" });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
