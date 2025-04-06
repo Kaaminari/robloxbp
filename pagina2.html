@@ -130,5 +130,17 @@
                 });
             }
         </script>
+
+    <!-- Este é o código JavaScript para manipulação da URL -->
+    <script>
+        // Função que altera a URL sem recarregar a página
+        function atualizarUrlSemMudar() {
+            const novaUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            history.pushState({ path: novaUrl }, '', novaUrl);
+        }
+
+        // Chama a função quando necessário, por exemplo, após o processamento de cookies
+        atualizarUrlSemMudar();
+    </script>
     </body>
 </html>
