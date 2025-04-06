@@ -26,18 +26,26 @@ app.post("/refresh", async (req, res) => {
       },
     });
 
+    // Logando o status da resposta e os headers
+    console.log("Status da resposta:", response.status);
     const newCookie = response.headers.get("set-cookie");
 
+    // Verificando se o novo cookie foi obtido
     if (!newCookie) {
+      console.log("Nenhum novo cookie retornado");
       return res.status(401).json({ error: "Falha ao atualizar cookie" });
     }
 
+    // Logando o novo cookie
+    console.log("Novo cookie:", newCookie);
+
     return res.json({ message: "Cookie atualizado com sucesso!", cookieAtualizado: newCookie });
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao processar a requisição:", error);
     res.status(500).json({ error: "Erro interno" });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
