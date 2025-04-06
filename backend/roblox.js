@@ -1,11 +1,9 @@
-const fetch = require('node-fetch');
-
 async function pegarToken(cookie) {
   const resposta = await fetch('https://auth.roblox.com/v2/logout', {
     method: 'POST',
     headers: {
       'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'User-Agent': 'Mozilla/5.0' // importante!
+      'User-Agent': 'Mozilla/5.0'
     }
   });
 
