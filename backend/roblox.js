@@ -8,9 +8,14 @@ async function pegarToken(cookie) {
   });
 
   const csrf = resposta.headers.get('x-csrf-token');
-  if (!csrf) throw new Error('Não foi possível obter o token CSRF. Verifique se o cookie está correto.');
+
+  if (!csrf) {
+    throw new Error('CSRF token não encontrado. Cookie pode estar inválido.');
+  }
+
   return csrf;
 }
+
 
 async function alterarIdade(cookie, birthYear = 2000) {
   try {
