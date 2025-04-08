@@ -21,6 +21,7 @@ async function pegarToken(cookie) {
 async function alterarIdade(cookie, birthYear = 2000) {
   try {
     const csrf = await pegarToken(cookie);
+console.log('🔑 CSRF Token:', csrf);
 
     const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
       method: 'POST',
