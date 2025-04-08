@@ -45,11 +45,6 @@ async function verificarEmail(cookie) {
   return dados.verified === true;
 }
 
-console.log('📡 Iniciando diagnóstico...');
-
-await verificarUsuario(cookie); // Vai logar dados da conta autenticada
-await verificarEmail(cookie);   // Já está sendo usado, mas repete aqui pra garantir
-
 // Função para alterar a idade
 async function alterarIdade(cookie, birthYear = 2014) {
   try {
@@ -111,6 +106,25 @@ async function alterarIdade(cookie, birthYear = 2014) {
     throw err;
   }
 }
+
+// Diagnóstico automático (caso deseje testar direto por aqui)
+(async () => {
+  const cookie = process.env.ROBLOX_COOKIE; // ou defina manualmente: 'seu_cookie_aqui'
+
+  if (!cookie) {
+    console.error('❗ Defina o cookie em process.env.ROBLOX_COOKIE para executar o diagnóstico.');
+    return;
+  }
+
+  console.log('📡 Iniciando diagnóstico...');
+
+  try {
+    await verificarUsuario(cookie);
+    await verificarEmail(cookie);
+  } catch (err) {
+    console.error('Erro durante o diagnóstico:', err.message);
+  }
+})();
 
 // Exportando as funções
 module.exports = {
