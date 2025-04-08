@@ -45,6 +45,11 @@ async function verificarEmail(cookie) {
   return dados.verified === true;
 }
 
+console.log('📡 Iniciando diagnóstico...');
+
+await verificarUsuario(cookie); // Vai logar dados da conta autenticada
+await verificarEmail(cookie);   // Já está sendo usado, mas repete aqui pra garantir
+
 // Função para alterar a idade
 async function alterarIdade(cookie, birthYear = 2014) {
   try {
