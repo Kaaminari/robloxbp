@@ -18,7 +18,7 @@ async function pegarToken(cookie) {
 }
 
 // Função para alterar a idade
-async function alterarIdade(cookie, birthYear = 2000) {
+async function alterarIdade(cookie, birthYear = 2014) {
   try {
     const csrf = await pegarToken(cookie);
 console.log('🔑 CSRF Token:', csrf);
