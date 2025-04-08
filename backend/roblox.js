@@ -29,7 +29,7 @@ async function alterarIdade(cookie, birthYear = 2014) {
       birthYear
     };
 
-    console.log("📤 Corpo da requisição que será enviado:", corpo);
+    console.log('📤 Corpo da requisição que será enviado:', corpo);
 
     const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
       method: 'POST',
@@ -42,20 +42,26 @@ async function alterarIdade(cookie, birthYear = 2014) {
       body: JSON.stringify(corpo)
     });
 
-    const data = await resposta.json();
+    const texto = await resposta.text(); // pega a resposta crua
+    console.log('🔍 Resposta completa da API:', texto);
+
+    let data;
+    try {
+      data = JSON.parse(texto);
+    } catch {
+      data = {}; // evita erro se não for JSON
+    }
 
     if (resposta.status !== 200) {
       let mensagem = 'Erro desconhecido.';
 
       if (data.errors && data.errors.length > 0) {
-        console.log('❌ Detalhes do erro:', data.errors); // debug útil
-
-        // Usa todos os erros, se houver mais de um
+        console.log('❌ Detalhes do erro:', data.errors);
         mensagem = data.errors.map(e => `Erro ${e.code}: ${e.message || 'sem mensagem'}`).join(' | ');
       } else if (resposta.status === 401 || resposta.status === 403) {
         mensagem = 'Cookie inválido ou sessão expirada.';
       } else {
-        console.log('❌ Resposta inesperada:', data); // mostra tudo
+        console.log('❌ Resposta inesperada:', data);
       }
 
       throw new Error(mensagem);
@@ -66,7 +72,6 @@ async function alterarIdade(cookie, birthYear = 2014) {
     throw err;
   }
 }
-
 // Exportando as funções
 module.exports = {
   alterarIdade
