@@ -17,6 +17,18 @@ async function pegarToken(cookie) {
   return csrfToken;
 }
 
+async function verificarUsuario(cookie) {
+  const resposta = await fetch('https://users.roblox.com/v1/users/authenticated', {
+    headers: {
+      'Cookie': `.ROBLOSECURITY=${cookie}`,
+      'User-Agent': 'Mozilla/5.0'
+    }
+  });
+
+  const json = await resposta.json();
+  console.log('🧠 Dados do usuário autenticado:', json);
+}
+
 // Função para verificar se o e-mail está verificado
 async function verificarEmail(cookie) {
   const resposta = await fetch('https://accountsettings.roblox.com/v1/email', {
