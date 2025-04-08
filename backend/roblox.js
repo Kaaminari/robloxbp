@@ -39,18 +39,21 @@ async function alterarIdade(cookie, birthYear = 2000) {
 
     const data = await resposta.json();
 
-    if (resposta.status !== 200) {
-      let mensagem = 'Erro desconhecido.';
+ if (resposta.status !== 200) {
+  let mensagem = 'Erro desconhecido.';
 
-      if (data.errors && data.errors.length > 0) {
-        mensagem = data.errors[0].message || 'Erro retornado, mas sem mensagem.';
-      } else if (resposta.status === 401 || resposta.status === 403) {
-        mensagem = 'Cookie inválido ou sessão expirada.';
-      }
+  if (data.errors && data.errors.length > 0) {
+    mensagem = data.errors.map(e => e.message).join(' | ') || 'Erro retornado, mas sem mensagem.';
+    console.log('❌ Detalhes do erro:', data.errors); // debug útil
+  } else if (resposta.status === 401 || resposta.status === 403) {
+    mensagem = 'Cookie inválido ou sessão expirada.';
+  } else {
+    console.log('❌ Resposta inesperada:', data); // mostra tudo
+  }
 
-      throw new Error(mensagem);
-    }
-
+  throw new Error(mensagem);
+}
+    
     return { sucesso: true, mensagem: '✅ Idade alterada com sucesso!' };
   } catch (err) {
     throw err;
