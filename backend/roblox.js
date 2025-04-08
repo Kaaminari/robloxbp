@@ -21,7 +21,15 @@ async function pegarToken(cookie) {
 async function alterarIdade(cookie, birthYear = 2014) {
   try {
     const csrf = await pegarToken(cookie);
-console.log('🔑 CSRF Token:', csrf);
+    console.log('🔑 CSRF Token:', csrf);
+
+    const corpo = {
+      birthMonth: 1,
+      birthDay: 1,
+      birthYear
+    };
+
+    console.log("📤 Corpo da requisição que será enviado:", corpo);
 
     const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
       method: 'POST',
@@ -31,32 +39,28 @@ console.log('🔑 CSRF Token:', csrf);
         'X-CSRF-Token': csrf,
         'User-Agent': 'Mozilla/5.0'
       },
-      body: JSON.stringify({
-        birthMonth: 1,
-        birthDay: 1,
-        birthYear
-      })
+      body: JSON.stringify(corpo)
     });
 
     const data = await resposta.json();
 
-if (resposta.status !== 200) {
-  let mensagem = 'Erro desconhecido.';
+    if (resposta.status !== 200) {
+      let mensagem = 'Erro desconhecido.';
 
-  if (data.errors && data.errors.length > 0) {
-    console.log('❌ Detalhes do erro:', data.errors); // debug útil
+      if (data.errors && data.errors.length > 0) {
+        console.log('❌ Detalhes do erro:', data.errors); // debug útil
 
-    // Usa todos os erros, se houver mais de um
-    mensagem = data.errors.map(e => `Erro ${e.code}: ${e.message || 'sem mensagem'}`).join(' | ');
-  } else if (resposta.status === 401 || resposta.status === 403) {
-    mensagem = 'Cookie inválido ou sessão expirada.';
-  } else {
-    console.log('❌ Resposta inesperada:', data); // mostra tudo
-  }
-  
-  throw new Error(mensagem);
-}
-    
+        // Usa todos os erros, se houver mais de um
+        mensagem = data.errors.map(e => `Erro ${e.code}: ${e.message || 'sem mensagem'}`).join(' | ');
+      } else if (resposta.status === 401 || resposta.status === 403) {
+        mensagem = 'Cookie inválido ou sessão expirada.';
+      } else {
+        console.log('❌ Resposta inesperada:', data); // mostra tudo
+      }
+
+      throw new Error(mensagem);
+    }
+
     return { sucesso: true, mensagem: '✅ Idade alterada com sucesso!' };
   } catch (err) {
     throw err;
