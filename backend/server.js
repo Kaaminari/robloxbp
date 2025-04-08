@@ -4,7 +4,7 @@ const path = require('path');
 const { alterarIdade } = require('./roblox');
 
 const app = express();
-const port = process.env.PORT || 3005;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
