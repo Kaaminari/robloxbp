@@ -36,3 +36,6 @@ async function alterarIdade(cookie, birthYear = 2000) {
     throw err;
   }
 }
+module.exports = {
+  alterarIdade
+};
