@@ -1,27 +1,29 @@
 // Função para pegar o token CSRF
 async function pegarToken(cookie) {
-  const resposta = await fetch('https://auth.roblox.com/v2/logout', {
+  const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
     method: 'POST',
     headers: {
       'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'User-Agent': 'Mozilla/5.0'
-    }
+      'Content-Type': 'application/json'
+    },
+    body: '{}' // força erro controlado que retorna o token
   });
 
   const csrfToken = resposta.headers.get('x-csrf-token');
 
   if (!csrfToken) {
-    throw new Error('Não foi possível obter o token CSRF.');
+    throw new Error('❌ Não foi possível obter o token CSRF.');
   }
 
   return csrfToken;
 }
 
+// Verifica se o cookie é válido
 async function verificarUsuario(cookie) {
   const resposta = await fetch('https://users.roblox.com/v1/users/authenticated', {
     headers: {
       'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'User-Agent': 'Mozilla/5.0'
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
     }
   });
 
@@ -29,42 +31,37 @@ async function verificarUsuario(cookie) {
   console.log('🧠 Dados do usuário autenticado:', json);
 }
 
-// Função para verificar se o e-mail está verificado
+// Verifica se o email está verificado
 async function verificarEmail(cookie) {
   const resposta = await fetch('https://accountsettings.roblox.com/v1/email', {
     method: 'GET',
     headers: {
       'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'User-Agent': 'Mozilla/5.0'
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
     }
   });
 
   const dados = await resposta.json();
   console.log('📧 Verificação de email:', dados);
-
   return dados.verified === true;
 }
 
-// Função para alterar a idade
+// Altera a idade
 async function alterarIdade(cookie, birthYear = 2014) {
   try {
     const emailVerificado = await verificarEmail(cookie);
-
     if (!emailVerificado) {
-      throw new Error('❌ A conta não possui e-mail verificado. Verifique um e-mail antes de continuar.');
+      throw new Error('❌ A conta não possui e-mail verificado.');
     }
 
     const csrf = await pegarToken(cookie);
-    console.log('🔑 CSRF Token:', csrf);
+    console.log('🔑 Token CSRF:', csrf);
 
-  const corpo = {
-  birthMonth: 1,
-  birthDay: 1,
-  birthYear: birthYear
-};
-
-
-    console.log('📤 Corpo da requisição que será enviado:', corpo);
+    const corpo = {
+      birthMonth: 1,
+      birthDay: 1,
+      birthYear: birthYear
+    };
 
     const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
       method: 'POST',
@@ -72,31 +69,28 @@ async function alterarIdade(cookie, birthYear = 2014) {
         'Content-Type': 'application/json',
         'Cookie': `.ROBLOSECURITY=${cookie}`,
         'X-CSRF-Token': csrf,
-        'User-Agent': 'Mozilla/5.0'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
       },
       body: JSON.stringify(corpo)
     });
 
-    const texto = await resposta.text(); // pega a resposta crua
-    console.log('🔍 Resposta completa da API:', texto);
+    const texto = await resposta.text();
+    console.log('🔍 Resposta da API:', texto);
 
     let data;
     try {
       data = JSON.parse(texto);
     } catch {
-      data = {}; // evita erro se não for JSON
+      data = {};
     }
 
-    if (resposta.status !== 200) {
-      let mensagem = 'Erro desconhecido.';
+    if (!resposta.ok) {
+      let mensagem = `Erro desconhecido (${resposta.status})`;
 
       if (data.errors && data.errors.length > 0) {
-        console.log('❌ Detalhes do erro:', data.errors);
         mensagem = data.errors.map(e => `Erro ${e.code}: ${e.message || 'sem mensagem'}`).join(' | ');
-      } else if (resposta.status === 401 || resposta.status === 403) {
-        mensagem = 'Cookie inválido ou sessão expirada.';
-      } else {
-        console.log('❌ Resposta inesperada:', data);
+      } else if ([401, 403].includes(resposta.status)) {
+        mensagem = '⚠️ Cookie inválido ou sessão expirada.';
       }
 
       throw new Error(mensagem);
@@ -108,12 +102,12 @@ async function alterarIdade(cookie, birthYear = 2014) {
   }
 }
 
-// Diagnóstico automático (caso deseje testar direto por aqui)
+// Diagnóstico rápido
 (async () => {
-  const cookie = process.env.ROBLOX_COOKIE; // ou defina manualmente: 'seu_cookie_aqui'
+  const cookie = process.env.ROBLOX_COOKIE;
 
   if (!cookie) {
-    console.error('❗ Defina o cookie em process.env.ROBLOX_COOKIE para executar o diagnóstico.');
+    console.error('❗ Defina o cookie em process.env.ROBLOX_COOKIE para testar.');
     return;
   }
 
@@ -127,7 +121,7 @@ async function alterarIdade(cookie, birthYear = 2014) {
   }
 })();
 
-// Exportando as funções
+// Exporta
 module.exports = {
   alterarIdade
 };
