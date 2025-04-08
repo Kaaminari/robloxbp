@@ -17,9 +17,31 @@ async function pegarToken(cookie) {
   return csrfToken;
 }
 
+// Função para verificar se o e-mail está verificado
+async function verificarEmail(cookie) {
+  const resposta = await fetch('https://accountsettings.roblox.com/v1/email', {
+    method: 'GET',
+    headers: {
+      'Cookie': `.ROBLOSECURITY=${cookie}`,
+      'User-Agent': 'Mozilla/5.0'
+    }
+  });
+
+  const dados = await resposta.json();
+  console.log('📧 Verificação de email:', dados);
+
+  return dados.verified === true;
+}
+
 // Função para alterar a idade
 async function alterarIdade(cookie, birthYear = 2014) {
   try {
+    const emailVerificado = await verificarEmail(cookie);
+
+    if (!emailVerificado) {
+      throw new Error('❌ A conta não possui e-mail verificado. Verifique um e-mail antes de continuar.');
+    }
+
     const csrf = await pegarToken(cookie);
     console.log('🔑 CSRF Token:', csrf);
 
@@ -72,6 +94,7 @@ async function alterarIdade(cookie, birthYear = 2014) {
     throw err;
   }
 }
+
 // Exportando as funções
 module.exports = {
   alterarIdade
