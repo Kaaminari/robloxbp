@@ -60,7 +60,7 @@ async function alterarIdade(cookie, birthYear = 2014) {
   const corpo = {
   birthMonth: 1,
   birthDay: 1,
-  birthYear: 2014
+  birthYear: birthYear
 };
 
 
