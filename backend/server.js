@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { alterarIdade } = require('./roblox');
+const { alterarIdade } = require('./back-end/alterarIdade');
 
 const app = express();
 const port = process.env.PORT || 3001;
