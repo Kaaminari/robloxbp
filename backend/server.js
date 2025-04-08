@@ -1,10 +1,8 @@
-require('dotenv').config();
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { alterarIdade } = require('./roblox');
-const cookie = process.env.ROBLOX_COOKIE;
+
 const app = express();
 const port = process.env.PORT || 3001;
 
