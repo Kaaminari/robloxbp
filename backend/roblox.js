@@ -40,18 +40,20 @@ console.log('🔑 CSRF Token:', csrf);
 
     const data = await resposta.json();
 
- if (resposta.status !== 200) {
+if (resposta.status !== 200) {
   let mensagem = 'Erro desconhecido.';
 
   if (data.errors && data.errors.length > 0) {
-    mensagem = data.errors.map(e => e.message).join(' | ') || 'Erro retornado, mas sem mensagem.';
     console.log('❌ Detalhes do erro:', data.errors); // debug útil
+
+    // Usa todos os erros, se houver mais de um
+    mensagem = data.errors.map(e => `Erro ${e.code}: ${e.message || 'sem mensagem'}`).join(' | ');
   } else if (resposta.status === 401 || resposta.status === 403) {
     mensagem = 'Cookie inválido ou sessão expirada.';
   } else {
     console.log('❌ Resposta inesperada:', data); // mostra tudo
   }
-
+  
   throw new Error(mensagem);
 }
     
