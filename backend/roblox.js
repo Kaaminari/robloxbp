@@ -58,10 +58,11 @@ async function alterarIdade(cookie, birthYear = 2014) {
     console.log('🔑 CSRF Token:', csrf);
 
     const corpo = {
-      birthMonth: 1,
-      birthDay: 1,
-      "birthYear": 2014
-    };
+    {
+  "birthMonth": 1,
+  "birthDay": 1,
+  "birthYear": 2014
+}
 
     console.log('📤 Corpo da requisição que será enviado:', corpo);
 
