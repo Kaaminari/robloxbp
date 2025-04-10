@@ -11,7 +11,10 @@ async function pegarToken(cookie) {
 
   const csrfToken = resposta.headers.get('x-csrf-token');
 
-  if (!csrfToken) {
+  // 🔍 DEBUG EXTRA
+  console.log('🛡️ Headers de resposta:', [...resposta.headers.entries()]);
+
+  if (resposta.status !== 403 || !csrfToken) {
     throw new Error('❌ Não foi possível obter o token CSRF.');
   }
 
