@@ -1,5 +1,5 @@
 // Função para pegar o token CSRF
-const axios = require('axios');
+const axios = require('./axios');
 
 async function pegarToken(cookie) {
   try {
