@@ -1,25 +1,31 @@
 // Função para pegar o token CSRF
 async function pegarToken(cookie) {
-  const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
-    method: 'POST',
-    headers: {
-      'Cookie': `.ROBLOSECURITY=${cookie}`,
-      'Content-Type': 'application/json'
-    },
-    body: '{}' // força erro controlado que retorna o token
-  });
+  try {
+    const resposta = await fetch('https://accountsettings.roblox.com/v1/birthdate', {
+      method: 'POST',
+      headers: {
+        'Cookie': `.ROBLOSECURITY=${cookie}`,
+        'Content-Type': 'application/json'
+      },
+      body: '{}' // força erro para gerar o token CSRF
+    });
 
-  const csrfToken = resposta.headers.get('x-csrf-token');
+    const csrfToken = resposta.headers.get('x-csrf-token');
 
-  // 🔍 DEBUG EXTRA
-  console.log('🛡️ Headers de resposta:', [...resposta.headers.entries()]);
+    // ⚠️ Roblox só retorna o token com erro 403 (esperado!)
+    if (resposta.status !== 403 || !csrfToken) {
+      throw new Error('Token CSRF não retornado. Status: ' + resposta.status);
+    }
 
-  if (resposta.status !== 403 || !csrfToken) {
+    console.log('✅ Token CSRF obtido:', csrfToken);
+    return csrfToken;
+
+  } catch (erro) {
+    console.error('Erro ao pegar token CSRF:', erro);
     throw new Error('❌ Não foi possível obter o token CSRF.');
   }
-
-  return csrfToken;
 }
+
 
 // Verifica se o cookie é válido
 async function verificarUsuario(cookie) {
