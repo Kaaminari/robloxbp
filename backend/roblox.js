@@ -113,9 +113,14 @@ async function alterarIdade(cookie, birthYear = 2014) {
 
   console.log('📡 Iniciando diagnóstico...');
 
+  console.log('📡 Iniciando diagnóstico...');
+
   try {
     await verificarUsuario(cookie);
     await verificarEmail(cookie);
+    
+    const resultado = await alterarIdade(cookie);
+    console.log('📅 Resultado da alteração de idade:', resultado); // <-- AQUI
   } catch (err) {
     console.error('Erro durante o diagnóstico:', err.message);
   }
