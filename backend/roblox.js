@@ -73,7 +73,8 @@ async function alterarIdade(cookie, birthYear = 2014) {
         'Content-Type': 'application/json',
         'Cookie': `.ROBLOSECURITY=${cookie}`,
         'X-CSRF-Token': csrf,
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'X-Csrf-Challenge-Id': challengeId // <-- Adicione esse header
       },
       body: JSON.stringify(corpo)
     });
