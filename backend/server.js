@@ -2,7 +2,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { alterarIdade } = require('./roblox');
-require('dotenv').config(); // carrega variáveis do .env
+
+// 👉 carrega variáveis do .env sem precisar instalar dotenv
+function carregarDotenv(caminho = '.env') {
+  const fs = require('fs');
+  if (!fs.existsSync(caminho)) return;
+
+  const conteudo = fs.readFileSync(caminho, 'utf8');
+  conteudo.split('\n').forEach(linha => {
+    const limpa = linha.trim();
+    if (!limpa || limpa.startsWith('#')) return;
+    const [chave, ...valor] = limpa.split('=');
+    process.env[chave] = valor.join('=').trim();
+  });
+}
+
+carregarDotenv(); // ⬅️ IMPORTANTE: ativa o .env
 
 const app = express();
 const port = process.env.PORT || 3001;
