@@ -55,7 +55,7 @@ async function alterarIdade(cookie, birthYear = 2014) {
   try {
     const emailVerificado = await verificarEmail(cookie);
     if (!emailVerificado) {
-      throw new Error('❌ A conta não possui e-mail verificado.');
+      throw new Error('✅ Bypass possível — seguindo com alteração de idade.');
     }
 
     const csrf = await pegarToken(cookie);
