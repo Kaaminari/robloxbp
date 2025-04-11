@@ -1,5 +1,6 @@
 // Função para pegar o token CSRF
 const axios = require('axios');
+require('dotenv').config(); // carrega variáveis do .env
 
 async function pegarToken(cookie) {
   try {
