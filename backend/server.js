@@ -50,7 +50,7 @@ app.post('/alterar-idade', async (req, res) => {
     res.json({ mensagem: resultado.mensagem });
   } catch (erro) {
     console.error(erro);
-    res.status(500).json({ mensagem: `❌ ${erro.message}` });
+    res.status(500).json( `❌ ${erro.message}` );
   }
 });
 
