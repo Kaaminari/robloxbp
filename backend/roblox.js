@@ -119,14 +119,20 @@ async function alterarIdade(cookie, birthYear = 2014) {
 
   console.log('📡 Iniciando diagnóstico...');
 
-  console.log('📡 Iniciando diagnóstico...');
-
   try {
     await verificarUsuario(cookie);
-    await verificarEmail(cookie);
-    
-    const resultado = await alterarIdade(cookie);
-    console.log('📅 Resultado da alteração de idade:', resultado); // <-- AQUI
+
+    const emailInfo = await verificarEmail(cookie);
+    const podeBypassar = !emailInfo.verified || emailInfo.canBypassPasswordForEmailUpdate;
+
+    if (podeBypassar) {
+      console.log('✅ Possível realizar o bypass (sem email ou com permissão).');
+      const resultado = await alterarIdade(cookie);
+      console.log('📅 Resultado da alteração de idade:', resultado);
+    } else {
+      console.log('❌ Não é possível fazer bypass — email verificado e sem permissão extra.');
+    }
+
   } catch (err) {
     console.error('Erro durante o diagnóstico:', err.message);
   }
